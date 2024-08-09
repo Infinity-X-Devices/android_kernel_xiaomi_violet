@@ -51,11 +51,11 @@ COMMIT_HEAD=$(git log --oneline -1)
 zip_name="$kernel_name-$(date +"%d%m%Y-%H%M")-signed.zip"
 TC_DIR=$HOME/tc/
 CLANG_DIR=$TC_DIR/clang-r530567
-export CONFIG_FILE="vendor/violet-perf_defconfig"
+export CONFIG_FILE="vendor/violet_defconfig"
 export ARCH="arm64"
 export KBUILD_BUILD_HOST=arch
-export KBUILD_BUILD_USER=kibria5
-LINUX_COMPILE_BY="kibria5"
+export KBUILD_BUILD_USER=CuriousNom
+LINUX_COMPILE_BY="CuriousNom"
 LINUX_COMPILE_HOST="arch"
 export PATH="$CLANG_DIR/bin:$PATH"
 export CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -121,7 +121,7 @@ completion() {
     tg_post_msg "<b>File Name:</b> <code>$zip_name</code>%0A<b>File Size:</b> <code>$zip_size</code>%0A<b>Download Link:</b> <a href='${url}'>Click Here</a>%0A<b>Build Time: $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)</b>"
     echo
     echo -e ${LGR} "############################################"
-    echo -e ${LGR} "############# OkThisIsEpic!  ##############"
+    echo -e ${LGR} "############# BloodReaper+ Compiled!  ##############"
     echo -e ${LGR} "############################################${NC}"
   else
     tg_post_build "$kernel_dir/error.log" "$CHATID" "Debug Mode Logs"
