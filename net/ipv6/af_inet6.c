@@ -284,10 +284,11 @@ out_rcu_unlock:
 int inet6_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 {
 	struct sock *sk = sock->sk;
+	const struct proto *prot;
 	int err = 0;
 
-        /* IPV6_ADDRFORM can change sk->sk_prot under us. */
-        prot = READ_ONCE(sk->sk_prot);
+	/* IPV6_ADDRFORM can change sk->sk_prot under us. */
+	prot = READ_ONCE(sk->sk_prot);
 	/* If the socket has its own bind function then use it. */
 	if (prot->bind)
 		return prot->bind(sk, uaddr, addr_len);
@@ -528,7 +529,6 @@ int inet6_getname(struct socket *sock, struct sockaddr *uaddr,
 {
 	struct sockaddr_in6 *sin = (struct sockaddr_in6 *)uaddr;
 	struct sock *sk = sock->sk;
-        const struct proto *prot;
 	struct inet_sock *inet = inet_sk(sk);
 	struct ipv6_pinfo *np = inet6_sk(sk);
 
@@ -564,7 +564,7 @@ int inet6_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
 {
 	struct sock *sk = sock->sk;
 	struct net *net = sock_net(sk);
-        const struct proto *prot;
+	const struct proto *prot;
 
 	switch (cmd) {
 	case SIOCGSTAMP:
@@ -586,8 +586,8 @@ int inet6_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
 		return addrconf_set_dstaddr(net, (void __user *) arg);
 	default:
 		/* IPV6_ADDRFORM can change sk->sk_prot under us. */
-                prot = READ_ONCE(sk->sk_prot);
-                if (!prot->ioctl)
+		prot = READ_ONCE(sk->sk_prot);
+		if (!prot->ioctl)
 			return -ENOIOCTLCMD;
 		return prot->ioctl(sk, cmd, arg);
 	}
